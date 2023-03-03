@@ -1,0 +1,94 @@
+---
+title: "Learning Week3"
+author: "211294029 李梦麟"
+date: "2023-03-07"
+output:
+  word_document: default
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## 问题一 Rivers数据集
+
+1.  打印（print）这个数据集；
+
+```{r}
+print(rivers)
+```
+
+2.  计算这一数据集的元素个数、平均数、中位数、标准差、方差、最大值、最小值等描述性统计特征。要求使用两种方法计算，一种为R语言自带的内置基本函数，另一种要求使用外部包提供的描述性统计函数。打印所有的计算结果；
+
+```{r}
+length(rivers)
+mean(rivers)
+median(rivers)
+sd(rivers)
+var(rivers)
+min(rivers)
+max(rivers)
+library(psych)
+psych::describe(rivers)
+```
+
+3.  将2中的基本函数的计算结果构建成一个名为rivers.Des.1的向量中，打印该向量；
+
+```{r}
+rivers.Des.1 <- c(mean(rivers),median(rivers),sd(rivers),var(rivers),max(rivers),min(rivers))
+print(rivers.Des.1)
+```
+
+4.  将2中的由外部包提供的描述性统计函数的计算结果构建成一个名为rivers.Des.2的数据框（dataframe）中，要求该数据框有两个变量：feature_name（统计指标名称）和value（统计值）。打印该数据框。
+
+```{r}
+des <- describe((rivers))
+feature_name <- names(des)
+value <- c(des$vars,des$n,des$mean,des$sd,des$median,des$trimmed,des$mad,des$min,des$max,des$range,des$skew,des$kurtosis,des$se)
+rivers.Des.2 <- data.frame(feature_name,value)
+print(rivers.Des.2)
+```
+
+## 问题二 women
+1.	计算该数据集的行数与列数；
+```{r women}
+print(nrow(women))
+print(ncol(women))
+```
+2.	打印该数据集的前6个观测，和最后6个观测；
+```{r}
+print(head(women))
+print(tail(women))
+```
+3.	计算height列的均值和方差
+```{r}
+mean(women$height)
+var(women$height)
+```
+4.	请选择height列的值大于60的行，形成一个新的数据集，名称为women.Height60；
+```{r}
+women.Height60 <- subset(women,height >60)
+print(women.Height60)
+```
+5.	将women数据集转化为一个列表类型的名叫women.list数据，要求列表中包含两个元素，分别是height和weight，打印该列表；
+```{r}
+women.list <- list(women$height,women$weight)
+print(women.list)
+```
+6.	将women数据集转化为一个矩阵类型的名叫women.matrix数据，打印该矩阵和该矩阵的转置矩阵；
+```{r}
+women.matrix <- as.matrix(women)
+print(women.matrix)
+print(t(women.matrix))
+```
+7.	请使用R自带的cor这一函数，计算women这一数据集height和weight列的相关系数；
+```{r}
+cor(women$height,women$weight)
+```
+8.	cor这一函数中的一个参数为method，它的取值包括，person，kendall，spearman。请简略写下他们之间的区别（不超过100个字）。
+
+   person是指皮尔逊相关系数用于度量两个变量之间的相关程度，其值介于-1与1之间
+   
+   Kendall用于有序分类变量属于等级相关系数。排序一致，则为1，排序完全相反则为-1
+   
+   Spearman 为秩相关系数，无参数的等级相关系数，亦即其值与两个相关变量的具体值无关，而仅仅与其值之间的大小关系有关。
